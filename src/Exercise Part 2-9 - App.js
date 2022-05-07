@@ -15,34 +15,32 @@ class App extends React.Component {
   }
 
   componentDidMount(){
+    console.log('mounted')
     RecordHandler.getAll()
       .then(res=>{
+      console.log(res)
       this.setState({persons:res.data})
+      console.log(this.state.persons)
+
     })
   }
 
   addPerson=(newItem)=>{
+    console.log('datarecive',newItem)
     RecordHandler.addRecord(newItem)
     .then(res=>{
+      console.log(res)
       const persons=this.state.persons.concat(res.data)
       this.setState({persons})
     })
   }
-
-  removeRecordOf =(person) =>{
-    if (window.confirm(`Are you sure to remove ${person.name}?`)){
-      RecordHandler.removeRecord(person.id)
-      .then(res=>{
-      this.setState({persons:this.state.persons.filter(n=>n.id !== person.id)})
-      })
-    }
-  }
+  
 
   render() {
     return (
       <div>
         <AddNew persons={this.state.persons} addRecord={this.addPerson} />
-        <Directory persons={this.state.persons} removeRecord={this.removeRecordOf} />
+        <Directory persons={this.state.persons} />
       </div>
     )
   }
